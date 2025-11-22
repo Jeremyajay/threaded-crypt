@@ -71,14 +71,16 @@ static void *thread_routine(void *arg);
 static void usage(const char *prog)
 {
     fprintf(stderr,
-            "Usage: %s -i <hash-file> -d <dict-file> [-o <out-file>] [-t <num>] [-v] [-n] [-h]\n"
-            "  -i filename   input hash file (required)\n"
-            "  -d filename   dictionary file (required)\n"
-            "  -o filename   output file (optional)\n"
-            "  -t #          number of threads (1..24)\n"
-            "  -v            verbose (to stderr)\n"
-            "  -n            nice(10)\n"
-            "  -h            help (to stderr)\n",
+            "help text\n"
+	    "        ./thread_hash ..."
+	    "        Options: i:o:d:hvt:n"
+            "                -i file         hash file name (required)\n"
+            "                -o file         output file name (default stdout)\n"
+            "                -d filename     dictionary file name (required)\n"
+            "                -t #            number of threads to create (default == 1)\n"
+            "                -n              renice to 10\n"
+            "                -v              enable verbose mode\n"
+            "                -h              helpful text\n",
             prog);
 }
 
