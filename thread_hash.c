@@ -59,7 +59,7 @@ typedef struct {
 static thread_stats_t *stats = NULL;
 
 /* prototypes */
-static void usage(const char *prog);
+static void usage(void);
 static char **read_lines(const char *fname, size_t *out_n);
 static double timeval_diff(const struct timeval *a, const struct timeval *b);
 static void detect_inc(const char *h, thread_stats_t *s);
@@ -68,11 +68,11 @@ static void process_hash(thread_stats_t *ts, size_t idx, struct crypt_data *cdat
 static void *thread_routine(void *arg);
 
 /* usage */
-static void usage(const char *prog)
+static void usage(void)
 {
     fprintf(stderr,
-            "help text\n"
-	    "        ./thread_hash ..."
+	    "help text\n"
+	    "        ./thread_hash ...\n"
 	    "        Options: i:o:d:hvt:n"
             "                -i file         hash file name (required)\n"
             "                -o file         output file name (default stdout)\n"
@@ -80,8 +80,7 @@ static void usage(const char *prog)
             "                -t #            number of threads to create (default == 1)\n"
             "                -n              renice to 10\n"
             "                -v              enable verbose mode\n"
-            "                -h              helpful text\n",
-            prog);
+            "                -h              helpful text\n");
 }
 
 /* read lines from a file, strip newlines */
@@ -351,16 +350,18 @@ int main(int argc, char **argv)
             opt_nice = 1;
             break;
         case 'h':
+	    usage();
+	    exit(EXIT_SUCCESS);
         default:
-            usage(argv[0]);
-            if (opt == 'h') return 0;
-            return 1;
+	    fprintf(stderr, "Invalid action.\n");
+	    exit(EXIT_FAILURE);
+	    break;
         }
     }
 
     if (!opt_in || !opt_dict) {
         fprintf(stderr, "error: -i and -d are required\n");
-        usage(argv[0]);
+        usage();
         return 2;
     }
 
